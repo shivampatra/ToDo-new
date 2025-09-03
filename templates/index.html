@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily To-Do Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .completed { text-decoration: line-through; color: #6c757d; }
+    .phase-title { margin-top: 2rem; }
+  </style>
+</head>
+<body class="bg-light">
+  <div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1>📅 Daily To-Do Tracker</h1>
+
+      {% if is_admin %}
+      <a href="{{ url_for('admin') }}" class="btn btn-warning">🔧 Admin Panel</a>
+  {% endif %}
+  
+
+
+      <a href="{{ url_for('logout') }}" class="btn btn-outline-danger">Logout</a>
+    </div>
+
+    {% set phase_ranges = [(1, 100), (101, 200), (201, 250)] %}
+    {% for phase in phase_ranges %}
+      {% set phase_num = loop.index %}
+      {% set start = phase[0] %}
+      {% set end = phase[1] %}
+
+      {% if unlocked_phases[phase_num] %}
+        <div class="phase-title">
+          <h3 class="text-primary">Phase {{ phase_num }} (Days {{ start }} - {{ end }})</h3>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-3">
+          {% for day in progress %}
+            {% if start <= day[1] <= end %}
+              <div class="col">
+                <form method="POST" action="{{ url_for('complete', day=day[1]) }}">
+                  <div class="card h-100 {% if day[3] == 1 %}border-success{% endif %}">
+                    <div class="card-body">
+                      <h5 class="card-title {% if day[3] == 1 %}completed{% endif %}">Day {{ day[1] }} - {{ day[2] }}</h5>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox"
+                               {% if day[3] == 1 %}checked disabled{% endif %}
+                               onchange="this.form.submit()">
+                        <label class="form-check-label">
+                          {% if day[3] == 1 %}Completed{% else %}Mark as done{% endif %}
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="phase-title text-muted">
+          <h3 class="text-secondary">🔒 Phase {{ phase_num }} Locked</h3>
+          <p>Complete the previous phase to unlock this section.</p>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    {# Dev-only Phase Completion Button — Enable by removing these comment tags #}
+
+
+    
+    {% if config.DEBUG %}
+      <form method="GET" action="{{ url_for('complete_next_phase') }}">
+        <button class="btn btn-warning mt-5">⚡ Complete Current Phase (Dev Mode)</button>
+      </form>
+    {% endif %}
+    
+
+  </div>
+</body>
+</html>

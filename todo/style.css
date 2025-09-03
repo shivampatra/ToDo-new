@@ -1,0 +1,76 @@
+body{
+background-color: black;
+
+}
+header{
+    background-color: white;
+    padding: 20px;
+}
+
+main {
+ 
+    background-color: rgb(22, 22, 92);
+    color: white;
+}
+
+.container{
+
+    display: inline-block;
+}
+form{ 
+     width: 20em;
+    padding: 30px;
+}
+form input,textarea,button{
+    padding: 20px;
+ width:86%;
+    margin: 0.3rem;
+   
+    border-radius: 0.5rem;
+    border: 1px solid grey  ;
+}
+textarea{
+    height: 15rem;
+}
+form button{
+    background-color: rgb(30, 193, 30);
+    color: white;
+    padding: 14px;
+    width: 100%;
+}
+
+.tab{
+    display: inline-block;
+position:absolute;
+top: 15%;
+
+    width:70%;
+    
+}
+table{
+
+    width: 100%;
+    height: 100%;
+
+}
+.content{
+    border-radius: 0.5rem;
+    margin: 0.5em;
+    padding: 0.5rem;
+    background-color: white;
+    color:black;
+}
+#del{
+    margin: 0;padding:0.6rem ; width: auto;
+    display: inline-block;
+  background-color: red;
+    color: white;
+}
+
+.scroll{
+;
+}
+footer{
+    position: absolute;
+    color: white;
+}
